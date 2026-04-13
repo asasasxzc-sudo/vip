@@ -10,6 +10,7 @@
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; height: 100%; }
         .glass-card:hover { border-color: rgba(194, 65, 12, 0.5); background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
         .gold-gradient { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); }
+        .history-gradient { background: linear-gradient(to bottom, transparent, rgba(194, 65, 12, 0.05), transparent); }
     </style>
 </head>
 <body>
@@ -23,7 +24,7 @@
 
     <header class="py-20 px-6 text-center">
         <h1 class="text-4xl md:text-7xl font-bold mb-6 tracking-tight italic">以茶载道，<br/><span class="text-orange-700">智赢全球</span></h1>
-        <p class="text-gray-400 text-sm max-w-xl mx-auto">“因为懂 SEO，所以更懂你需要什么”</p>
+        <p class="text-gray-400 text-sm max-w-xl mx-auto italic">“因为懂 SEO，所以更懂你需要什么”</p>
     </header>
 
     <section class="max-w-3xl mx-auto w-full px-6 mb-20">
@@ -45,16 +46,38 @@
     </section>
 
     <section id="benefits" class="max-w-7xl mx-auto px-6 py-10">
-        <h3 class="text-center text-2xl font-bold mb-16 tracking-[0.4em] uppercase">会员专属权益与文化赋能</h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="benefitsGrid">
+        <h3 class="text-center text-2xl font-bold mb-16 tracking-[0.4em] uppercase text-white">会员专属权益与文化赋能</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="benefitsGrid"></div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-20 history-gradient">
+        <div class="border-t border-white/10 pt-16">
+            <div class="grid lg:grid-cols-3 gap-12 items-start">
+                <div>
+                    <h3 class="text-2xl font-bold tracking-[0.2em] uppercase text-orange-700 leading-snug">云茗荟十年<br/><span class="text-white">用数据说话</span></h3>
+                    <p class="text-white text-[10px] mt-4 opacity-50 tracking-[0.3em] font-light uppercase">Decade of Excellence</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6 font-light">
+                        云茗荟由<span class="text-white font-bold">云茗老茶馆</span>于五年前正式创办。
+                    </p>
+                    <div class="space-y-6 text-gray-400 leading-relaxed text-sm">
+                        <p>云茗老茶专注于海外出口已逾十年，稳扎稳打，积累了极其丰富的实战经验以及全球供应链资源。正是因为有太多不同行业的茶友对精准出海有迫切需求，我们决定将这些能力开放，创立了云茗荟。</p>
+                        <p class="p-6 bg-white/5 rounded-2xl border-l-2 border-orange-700 italic">
+                            “我们希望用最真实的数据，最丰富的经验，亲自对接的优质客户，以及那些年走过的弯路、白白掏过的学费，来真诚地赋能每一位正在深耕外贸的朋友。”
+                        </p>
+                        <p>这不仅是业务的延伸，更是一种情怀的传承——在茶香氤氲中，让中国出海品牌走得更稳、更远、更专业。</p>
+                    </div>
+                </div>
             </div>
+        </div>
     </section>
 
     <section class="max-w-4xl mx-auto px-6 py-20 text-center">
-        <div class="gold-gradient p-12 rounded-[3rem] shadow-2xl">
+        <div class="gold-gradient p-12 rounded-[3rem] shadow-2xl shadow-orange-900/20">
             <h3 class="text-2xl font-bold text-white mb-4 uppercase">极致的商务赋能</h3>
             <p class="text-white/80 mb-10 text-sm leading-relaxed max-w-lg mx-auto font-light">
-                出口十余年，拒绝黑盒逻辑。我们将非遗底蕴与硬核 SEO 技术结合，助您构建全球流量护城河。
+                拒绝黑盒逻辑。我们将非遗底蕴与硬核 SEO 技术结合，助您构建全球流量护城河。
             </p>
             <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="bg-white text-orange-900 px-12 py-4 rounded-full font-bold hover:scale-105 transition-all inline-block text-[10px] tracking-[0.2em] uppercase">
                 联系我的微信
@@ -76,11 +99,11 @@
             { t: "非遗 · 大宋点茶", d: "深度还原宋代“七汤点茶”技艺，通过击拂茶汤创造极致泡沫美学。在点茶中磨炼心性，为高端会谈营造顶级文化意境。" },
             { t: "耀州窑刻花艺术", d: "呈献国家级非遗耀州窑精品。其“剔刻花”技艺刀法犀利、精比琢玉，以传世青瓷承载大国商业底蕴。" },
             { t: "沉浸式茶道美学", d: "融合东方茶道精神，提供洗练、静谧的品饮空间。通过茶席间的深度对话，链接全球精英，实现文化与商业的同频。" },
-            { t: "高端茶圈文化", d: "深度链接全球茶友与高端商务精英，每周举办 6 天不同主题的会员活动，在茶香中精准链接高净值资源。" },
+            { t: "高端茶圈文化", d: "深度链接全球茶友与高端商务精英，每周举办 6 天不同主题的茶话会，在茶香中精准链接高净值资源。" },
             { t: "掼蛋与精品桌游", d: "专属商务博弈空间，通过掼蛋竞技与烧脑桌游快速破冰。在策略互动中建立深层商业信任与战略共识。" },
             { t: "SEO/GEO 深度优化", d: "基于深度内容矩阵拦截高质流量，告别盲目烧钱。构建属于您品牌自己的长效流量护城河与私域资产。" },
             { t: "100% 独立站定制", d: "所有 UI 风格与输出逻辑全为 ToB 外贸询盘场景深度调优。懂搜索，所以更懂如何提升转化率。" },
-            { t: "门店免品权", d: "会员每日可到任意云茗荟茶馆免费品饮高端名茶，享受专属尊贵的商务洽谈空间。" },
+            { t: "门店免品权", d: "会员每日可到全球任意云茗荟门店免费品饮高端名茶，享受专属尊贵的独立商务洽谈空间。" },
             { t: "极致的商务赋能", d: "提供核心行业链接、商务引擎驱动及精准供需匹配，彻底打破跨境信息差，助力企业智赢全球。" }
         ];
 
