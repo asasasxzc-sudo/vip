@@ -4,125 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>云茗荟 · 智赢全球 | YMTEA CLUB</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #050505; color: #e4e4e7; margin: 0; font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", serif; }
-        .gold-gradient { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); }
+        body { background-color: #050505; color: #e4e4e7; font-family: sans-serif; }
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .text-gold { color: #c2410c; }
+        .gold-gradient { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <nav class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+        <a href="https://ymtea.club" class="text-xl font-bold">云茗荟 <span class="text-orange-700">YMTEA</span></a>
+        <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
+            <a href="https://www.ymtea.club/bbs/" target="_blank" class="text-orange-600">论坛官网</a>
+            <a href="#benefits" class="hover:text-orange-600">会员权益</a>
+        </div>
+    </nav>
 
-    <script type="text/babel">
-        const { useState } = React;
+    <header class="py-20 px-6 text-center">
+        <h1 class="text-4xl md:text-7xl font-bold mb-6">煮茶论道，<br/><span class="text-orange-700">智赢全球</span></h1>
+        <p class="text-gray-400 text-sm max-w-xl mx-auto italic">“因为懂 SEO，所以更懂你需要什么”</p>
+    </header>
 
-        const App = () => {
-            const [product, setProduct] = useState('');
-            const [result, setResult] = useState(null);
-            const [loading, setLoading] = useState(false);
+    <section class="max-w-3xl mx-auto w-full px-6 mb-20">
+        <div class="glass-card p-8 rounded-3xl text-center">
+            <h2 class="text-xs font-bold tracking-[0.3em] mb-8 text-gray-500 uppercase">AI Market Terminal</h2>
+            <div class="flex flex-col md:flex-row gap-3">
+                <input id="productInput" class="flex-1 bg-black/50 border border-white/10 p-4 rounded-xl outline-none focus:border-orange-700 text-white" placeholder="输入关键词...">
+                <button onclick="runAnalysis()" id="btn" class="bg-orange-700 px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition-all">启动分析</button>
+            </div>
+            <div id="resultBox" class="hidden mt-8 p-6 bg-white/5 rounded-2xl text-left border-l-4 border-orange-700 animate-fade-in">
+                <p class="font-bold mb-2 text-orange-500" id="resTitle"></p>
+                <p id="resDetail" class="text-sm text-gray-300"></p>
+                <div class="mt-4 text-xs text-gray-500" id="resAdvice"></div>
+                <a href="https://up.ymtea.club" target="_blank" class="inline-block mt-4 text-[10px] border-b border-orange-700 pb-1 text-orange-600">查看完整行业报告 →</a>
+            </div>
+        </div>
+    </section>
 
-            const runAnalysis = async () => {
-                if(!product.trim()) return;
-                setLoading(true);
-                // 模拟专业数据引擎
-                setTimeout(() => {
-                    const score = (Math.random() * 2 + 7.5).toFixed(1);
-                    setResult({
-                        score: score,
-                        market: ["北美", "欧洲", "东南亚"][Math.floor(Math.random()*3)],
-                        advice: "建议通过云茗荟 GEO 内容矩阵拦截精准流量。"
-                    });
-                    setLoading(false);
-                }, 1000);
-            };
+    <section id="benefits" class="max-w-5xl mx-auto px-6 py-10">
+        <h3 class="text-center text-xl font-bold mb-12 tracking-widest uppercase">会员专属权益与赋能</h3>
+        <div class="grid md:grid-cols-3 gap-6" id="benefitsGrid"></div>
+    </section>
 
-            return (
-                <div className="min-h-screen flex flex-col">
-                    {/* 导航 */}
-                    <nav className="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/90 backdrop-blur-sm z-50">
-                        <a href="https://ymtea.club" className="text-xl font-bold tracking-tighter">
-                            云茗荟 <span className="text-orange-700">YMTEA</span>
-                        </a>
-                        <div className="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
-                            <a href="https://www.ymtea.club/bbs/" target="_blank" className="text-orange-600">论坛官网</a>
-                            <a href="#benefits" className="hover:text-orange-600">会员权益</a>
-                        </div>
-                    </nav>
+    <footer class="py-10 border-t border-white/5 text-center text-[10px] text-gray-700 uppercase tracking-widest">
+        <div class="flex justify-center gap-6 mb-4 font-bold text-gray-500">
+            <a href="https://ymtea.club">官网</a>
+            <a href="https://www.ymtea.club/bbs/">论坛</a>
+        </div>
+        © 2026 YMTEA LABS · GLOBAL MARKET DATA TERMINAL
+    </footer>
 
-                    {/* 主视觉 */}
-                    <header className="py-20 px-6 text-center">
-                        <h1 className="text-4xl md:text-7xl font-bold mb-6">煮茶论道，<br/><span className="text-orange-700">智赢全球</span></h1>
-                        <p className="text-gray-400 text-sm max-w-xl mx-auto">因为懂 SEO，所以更懂你需要什么。云茗荟出口十余年，用最真实的数据说话。</p>
-                    </header>
+    <script>
+        // 恢复 6 个会员福利板块
+        const benefits = [
+            { t: "极致的能力", d: "提供行业深度链接、商务引擎驱动及精准供需匹配。" },
+            { t: "100% 独立站定制", d: "UI风格与输出逻辑全为ToB外贸询盘场景深度调优。" },
+            { t: "SEO/GEO 优化", d: "基于深度内容矩阵拦截高质流量，构建私域资产。" },
+            { t: "宋代点茶体验", d: "每周6天高端茶圈活动，在茶香中完成商务碰撞。" },
+            { t: "门店免品权", d: "会员每日可到全球任意云茗荟门店免费品茶。" },
+            { t: "同享物流渠道", d: "开放云茗荟稳定、快速、透明的全球物流体系。" }
+        ];
 
-                    {/* 分析入口 */}
-                    <section className="max-w-3xl mx-auto w-full px-6 mb-20">
-                        <div className="glass-card p-8 rounded-3xl text-center">
-                            <h2 className="text-sm font-bold tracking-[0.3em] mb-8 text-gray-500 uppercase">AI Market Terminal</h2>
-                            <div className="flex flex-col md:flex-row gap-3">
-                                <input 
-                                    className="flex-1 bg-black/50 border border-white/10 p-4 rounded-xl outline-none focus:border-orange-700 transition-all"
-                                    placeholder="输入关键词..."
-                                    value={product}
-                                    onChange={(e) => setProduct(e.target.value)}
-                                />
-                                <button onClick={runAnalysis} className="bg-orange-700 px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition-all">
-                                    {loading ? '分析中...' : '启动分析'}
-                                </button>
-                            </div>
+        const grid = document.getElementById('benefitsGrid');
+        benefits.forEach((item, i) => {
+            grid.innerHTML += `
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="text-orange-700 font-bold mb-2">0${i+1}</div>
+                    <h4 class="font-bold mb-2 text-sm">${item.t}</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">${item.d}</p>
+                </div>`;
+        });
 
-                            {result && (
-                                <div className="mt-8 p-6 bg-white/5 rounded-2xl text-left border-l-4 border-orange-700 animate-pulse">
-                                    <p className="font-bold mb-2">🚩 分析结果：{product}</p>
-                                    <p className="text-sm text-gray-400">潜力评分：<span className="text-orange-500 font-bold">{result.score}</span> | 核心市场：{result.market}</p>
-                                    <p className="text-xs mt-3 text-orange-600 font-bold">{result.advice}</p>
-                                    <a href="https://up.ymtea.club" target="_blank" className="inline-block mt-4 text-[10px] border-b border-orange-700 pb-1">查看完整行业报告 →</a>
-                                </div>
-                            )}
-                        </div>
-                    </section>
-
-                    {/* 6大权益 */}
-                    <section id="benefits" className="max-w-5xl mx-auto px-6 py-10">
-                        <h3 className="text-center text-xl font-bold mb-12 tracking-widest uppercase">会员专属权益</h3>
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {[
-                                { t: "极致的能力", d: "提供行业深度链接、商务引擎驱动及精准供需匹配。" },
-                                { t: "100% 独立站定制", d: "UI风格与输出逻辑全为ToB外贸询盘场景深度调优。" },
-                                { t: "SEO/GEO 优化", d: "基于深度内容矩阵拦截高质流量，构建私域资产。" },
-                                { t: "宋代点茶体验", d: "每周6天高端茶圈活动，在茶香中完成商务碰撞。" },
-                                { t: "门店免品权", d: "会员每日可到全球任意云茗荟门店免费品茶。" },
-                                { t: "同享物流渠道", d: "开放云茗荟稳定、快速、透明的全球物流体系。" }
-                            ].map((item, i) => (
-                                <div key={i} className="glass-card p-6 rounded-2xl">
-                                    <div className="text-orange-700 font-bold mb-2">0{i+1}</div>
-                                    <h4 className="font-bold mb-2 text-sm">{item.t}</h4>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed">{item.d}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* 页脚 */}
-                    <footer className="mt-auto py-10 border-t border-white/5 text-center">
-                        <div className="flex justify-center gap-6 text-[10px] font-bold mb-4 opacity-60">
-                            <a href="https://ymtea.club">官网</a>
-                            <a href="https://www.ymtea.club/bbs/">论坛</a>
-                            <a href="https://ymtea.club/blog">资讯</a>
-                        </div>
-                        <p className="text-[9px] text-gray-700 uppercase tracking-widest">© 2026 YMTEA LABS · Global Market Data Terminal</p>
-                    </footer>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        function runAnalysis() {
+            const val = document.getElementById('productInput').value;
+            if(!val) return;
+            const btn = document.getElementById('btn');
+            btn.innerText = "分析中...";
+            
+            setTimeout(() => {
+                const score = (Math.random() * 2 + 7.5).toFixed(1);
+                const markets = ["北美", "欧洲", "东南亚", "中东"];
+                document.getElementById('resultBox').classList.remove('hidden');
+                document.getElementById('resTitle').innerText = "🚩 关键词分析：" + val;
+                document.getElementById('resDetail').innerText = `潜力评分：${score} | 建议目标市场：${markets[Math.floor(Math.random()*4)]}`;
+                document.getElementById('resAdvice').innerText = "策略：此品类存在显著 SEO 缺口，建议通过云茗荟 GEO 内容矩阵进行全球覆盖。";
+                btn.innerText = "启动分析";
+            }, 800);
+        }
     </script>
 </body>
 </html>
