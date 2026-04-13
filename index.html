@@ -72,22 +72,20 @@
             <a href="https://www.ymtea.club/bbs/" target="_blank" class="hover:text-orange-600">云茗荟论坛</a>
             <a href="https://ymtea.club/blog" target="_blank" class="hover:text-orange-600">资讯中心</a>
         </div>
-        © 2026 YMTEA LABS · GLOBAL MARKET DATA TERMINAL<br>
-        <span class="opacity-30 mt-2 block italic">Powered by YMTEA SEO Engine</span>
+        © 2026 YMTEA LABS · GLOBAL MARKET DATA TERMINAL
     </footer>
 
     <script>
-        // 恢复最早版本的 6 个会员福利板块数据
+        // 恢复并整合：茶圈、掼蛋、桌游、SEO 等核心权益
         const benefits = [
-            { t: "极致的能力", d: "提供核心行业链接、商务引擎驱动及精准供需匹配，打破跨境信息壁垒。" },
-            { t: "100% 独立站定制", d: "UI 风格与输出逻辑全为 ToB 外贸询盘场景深度调优，转化率提升显著。" },
-            { t: "SEO/GEO 深度优化", d: "基于深度内容矩阵拦截高质流量，告别盲目烧钱，构建长效私域资产。" },
-            { t: "宋代点茶体验", d: "每周 6 天高端茶圈活动，体验非遗点茶美学，在茶香中完成千万级项目对撞。" },
-            { t: "门店免品权", d: "会员每日可到全球任意云茗荟门店免费品茶，享受专属尊贵商务接待空间。" },
-            { t: "同享物流渠道", d: "开放云茗荟沉淀十余年的稳定、快速、透明全球物流体系，保障出海履约。" }
+            { t: "高端茶圈文化", d: "深度链接全球茶友与高端商务精英，每周举办 6 天不同主题的茶话会，在茶香中精准链接高净值资源。" },
+            { t: "掼蛋与精品桌游", d: "专属商务博弈空间，通过掼蛋竞技与烧脑桌游快速破冰。在策略互动中建立深层商业信任与战略共识。" },
+            { t: "SEO/GEO 深度优化", d: "基于深度内容矩阵拦截高质流量，告别盲目烧钱。构建属于您品牌自己的长效流量护城河与私域资产。" },
+            { t: "100% 独立站定制", d: "所有 UI 风格与输出逻辑全为 ToB 外贸询盘场景深度调优。懂搜索，所以更懂如何提升转化率。" },
+            { t: "门店免品权", d: "会员每日可到全球任意云茗荟门店免费品饮高端名茶，享受专属尊贵的独立商务洽谈空间。" },
+            { t: "极致的商务赋能", d: "提供核心行业链接、商务引擎驱动及精准供需匹配，彻底打破跨境信息差，助力企业智赢全球。" }
         ];
 
-        // 渲染板块
         const grid = document.getElementById('benefitsGrid');
         benefits.forEach((item, i) => {
             grid.innerHTML += `
@@ -98,7 +96,6 @@
                 </div>`;
         });
 
-        // 专业动态分析逻辑
         function runAnalysis() {
             const val = document.getElementById('productInput').value;
             if(!val) return;
@@ -107,12 +104,11 @@
             
             setTimeout(() => {
                 const score = (Math.random() * 1.5 + 7.8).toFixed(1);
-                const markets = ["北美核心区", "西欧高端商圈", "东南亚新兴市场", "中东高净值地区"];
+                const markets = ["北美中心区", "西欧高端商圈", "东南亚新兴市场", "中东高净值地区"];
                 const advices = [
                     "该品类存在显著 SEO 流量缺口，建议通过 GEO 内容矩阵快速覆盖。",
                     "竞争程度中等，建议强化移动端体验及社交媒体内容链接。",
-                    "目标市场需求强劲，建议利用云茗荟 B2B 矩阵进行精准询盘拦截。",
-                    "建议针对当地文化定制独立站视觉体系，提升品牌信任溢价。"
+                    "目标市场需求强劲，建议利用云茗荟 B2B 矩阵进行精准询盘拦截。"
                 ];
 
                 document.getElementById('resultBox').classList.remove('hidden');
@@ -120,8 +116,6 @@
                 document.getElementById('resDetail').innerText = `潜力评分：${score} / 10 | 核心目标：${markets[Math.floor(Math.random()*4)]}`;
                 document.getElementById('resAdvice').innerText = "策略建议：" + advices[Math.floor(Math.random()*advices.length)];
                 btn.innerText = "启动分析";
-                
-                // 自动滚动到结果
                 document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 1000);
         }
