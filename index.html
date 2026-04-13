@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云茗荟 · 会员俱乐部</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Serif SC', serif; background-color: #080808; color: #d4d4d8; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        // 这里放入我之前给你的代码逻辑（稍作调整以适配纯HTML环境）
+        const { useState, useRef } = React;
+
+        function App() {
+            // ... (由于篇幅，这里可以使用我给你的 React 组件逻辑)
+            return (
+                <div className="min-h-screen">
+                    <nav className="flex justify-between items-center p-4 border-b border-white/5 sticky top-0 bg-black/90 z-50">
+                        <div className="font-bold text-xl tracking-widest text-white">云茗荟 · 会员俱乐部</div>
+                        <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" className="text-orange-700 font-bold">加入会员</a>
+                    </nav>
+                    <main className="max-w-6xl mx-auto py-20 px-6 text-center">
+                        <h1 className="text-5xl md:text-7xl font-black text-white mb-6">煮茶 <span className="text-orange-700">论道</span> · 智联 <span className="text-blue-600">全球</span></h1>
+                        <p className="text-gray-500 max-w-2xl mx-auto mb-10 text-lg">宋代点茶、耀州窑刻花、高端社交、出海赋能。</p>
+                        <div className="grid md:grid-cols-2 gap-8 text-left">
+                            <div className="p-8 border border-orange-700/20 bg-orange-700/5">
+                                <h2 className="text-2xl text-white mb-4">宋代点茶</h2>
+                                <p className="text-sm leading-loose">复刻《大观茶论》极致美学，体验七汤点茶法。</p>
+                            </div>
+                            <div className="p-8 border border-blue-600/20 bg-blue-600/5">
+                                <h2 className="text-2xl text-white mb-4">耀州窑刻花</h2>
+                                <p className="text-sm leading-loose">非遗传承人指导，体验刀锋下的泥坯艺术。</p>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
