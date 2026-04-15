@@ -6,39 +6,42 @@
     <title>云茗荟 · 智赢全球 | YMTEA CLUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 基础样式与背景茶香氛围 */
+        /* 1. 基础样式微调：引入琥珀茶汤色调的径向渐变背景 */
         body { 
             background-color: #050505; 
+            background-image: radial-gradient(circle at 50% -20%, #1a1c12 0%, #050505 80%);
             color: #e4e4e7; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
             scroll-behavior: smooth; 
-            -webkit-tap-highlight-color: transparent;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(194, 65, 12, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(194, 65, 12, 0.05) 0%, transparent 40%);
+            -webkit-tap-highlight-color: transparent; 
         }
 
-        /* 茶叶水印浮窗背景 */
-        .tea-leaf-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+        /* 2. 卡片增强：增加叶脉纹理暗纹和模糊度 */
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease; 
+            height: 100%; 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 3. 卡片伪元素：淡淡的叶脉纹理 */
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23c2410c" stroke-width="0.5" opacity="0.1"><path d="M2,22C2,22 3,18 7,15C11,12 18,11 22,2M2,22C2,22 6,21 9,17C12,13 13,6 22,2M2,22L22,2"/></svg>');
+            background-size: contain;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.15;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 20 C60 40 90 50 50 80 C10 50 40 40 50 20" fill="none" stroke="%23c2410c" stroke-width="0.5"/></svg>');
-            background-size: 300px 300px;
         }
 
-        .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; height: 100%; position: relative; overflow: hidden; }
         .glass-card:hover { border-color: rgba(194, 65, 12, 0.5); background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
-        
-        /* 增加卡片内部的茶叶微光 */
-        .glass-card::after {
-            content: ""; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(194, 65, 12, 0.03) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
         .gold-gradient { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); }
         .history-gradient { background: linear-gradient(to bottom, transparent, rgba(194, 65, 12, 0.05), transparent); }
         .icon-box { color: #c2410c; margin-bottom: 1rem; }
@@ -59,34 +62,42 @@
         .qr-active { animation: pulse-border 2s infinite; }
         #ticker { transition: all 0.5s ease-in-out; }
 
-        /* 茶叶旋转装饰动画 */
-        .leaf-spin { animation: spin 20s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* 4. 滚动条微调：琥珀色滑块，模拟茶香凝结 */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #7c2d12; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c2410c; }
+
+        /* 5. 页头装饰动画：茶叶旋转 */
+        .leaf-rotate { animation: leafRotate 20s linear infinite; }
+        @keyframes leafRotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
     </style>
 </head>
-<body>
-    <div class="tea-leaf-bg"></div>
+<body class="custom-scroll">
 
     <div class="sidebar-contact">
-        <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="sidebar-item">
+        <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="sidebar-item hover:scale-110 transition-transform">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8"/><path d="M8 13h6"/></svg>
         </a>
     </div>
 
-    <nav class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+    <nav class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/80 backdrop-blur-lg z-50">
         <a href="https://ymtea.club" target="_blank" class="text-xl font-bold tracking-tighter flex items-center gap-2">
-            <svg class="text-orange-700 w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M2,21V19H20V21H2M20,8H18V5H20M20,3H4V13C4,15.21 5.79,17 8,17H16C18.21,17 20,15.21 20,13V11H22V5C22,3.89 21.1,3 20,3Z"/></svg>
+            <svg class="w-5 h-5 text-orange-700" viewBox="0 0 24 24" fill="currentColor"><path d="M2,21V19H20V21H2M20,8H18V5H20M20,3H4V13C4,15.21 5.79,17 8,17H16C18.21,17 20,15.21 20,13V11H22V5C22,3.89 21.1,3 20,3Z"/></svg>
             云茗荟 <span class="text-orange-700">YMTEA</span>
         </a>
         <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
-            <a href="https://www.ymtea.club/bbs/" target="_blank" class="text-orange-600">论坛官网</a>
-            <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="hover:text-orange-600">微信咨询</a>
+            <a href="https://www.ymtea.club/bbs/" target="_blank" class="text-orange-600 hover:text-white transition">论坛官网</a>
+            <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="hover:text-orange-600 transition">微信咨询</a>
         </div>
     </nav>
 
     <header class="py-16 px-6 text-center relative overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 opacity-10 leaf-spin pointer-events-none">
-            <svg width="400" height="400" viewBox="0 0 100 100"><path d="M50 10 C70 30 90 50 50 90 C10 50 30 30 50 10" fill="currentColor" class="text-orange-700"/></svg>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.02] leaf-rotate pointer-events-none">
+            <svg width="600" height="600" viewBox="0 0 100 100"><path d="M50 10 C70 30 90 50 50 90 C10 50 30 30 50 10" fill="currentColor" class="text-orange-700"/></svg>
         </div>
         <h1 class="text-4xl md:text-7xl font-bold mb-6 tracking-tight italic relative z-10">以茶载道，<br/><span class="text-orange-700">智赢全球</span></h1>
         <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto font-medium tracking-widest relative z-10">“茗香社交，商道赋能”</p>
@@ -95,12 +106,12 @@
     <section class="max-w-3xl mx-auto w-full px-6 mb-20 relative z-10">
         <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border-orange-900/10">
             <div class="mb-2">
-                <p class="text-orange-700/60 text-[10px] font-bold tracking-widest uppercase">“因为懂 SEO，所以更懂你需要什么”</p>
-                <h2 class="text-xs font-bold tracking-[0.3em] text-gray-500 uppercase flex justify-center items-center gap-2">
-                    <span class="w-8 h-[1px] bg-orange-900/30"></span>
-                    AI Market Intelligence Terminal
-                    <span class="w-8 h-[1px] bg-orange-900/30"></span>
-                </h2>
+                <p class="text-orange-700/60 text-[10px] font-bold tracking-widest uppercase flex justify-center items-center gap-2">
+                    <span class="w-4 h-[1px] bg-orange-900"></span>
+                    “因为懂 SEO，所以更懂你需要什么”
+                    <span class="w-4 h-[1px] bg-orange-900"></span>
+                </p>
+                <h2 class="text-xs font-bold tracking-[0.3em] text-gray-500 uppercase">AI Market Intelligence Terminal</h2>
             </div>
             
             <div class="mb-6 h-6 overflow-hidden relative">
@@ -109,76 +120,77 @@
                 </div>
             </div>
 
-            <div class="flex flex-col md:flex-row gap-3">
-                <input id="productInput" class="flex-1 bg-black/50 border border-white/10 p-4 rounded-xl outline-none focus:border-orange-700 text-white transition-all" placeholder="输入出海产品关键词 (如: Tea Set)...">
-                <button onclick="runAnalysis()" id="btn" class="bg-orange-700 px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition-all text-sm uppercase tracking-widest text-white">启动全球扫描</button>
+            <div class="flex flex-col md:flex-row gap-3 relative z-10">
+                <input id="productInput" class="flex-1 bg-black/50 border border-white/10 p-4 rounded-xl outline-none focus:border-orange-700 text-white transition-all placeholder:text-gray-600" placeholder="输入出海产品关键词 (如: Tea Set)...">
+                <button onclick="runAnalysis()" id="btn" class="bg-orange-700 px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition-all text-sm uppercase tracking-widest text-white shadow-lg shadow-orange-900/20">启动全球扫描</button>
             </div>
             
-            <div id="resultBox" class="hidden mt-8 p-6 bg-white/5 rounded-2xl text-left border-l-4 border-orange-700 transition-all">
+            <div id="resultBox" class="hidden mt-8 p-6 bg-white/5 rounded-2xl text-left border-l-4 border-orange-700 transition-all relative z-10">
                 <div class="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
-                    <h3 class="font-bold text-lg text-white flex items-center gap-2" id="resTitle"></h3>
+                    <h3 class="font-bold text-lg text-white flex items-center gap-2" id="resTitle">
+                        <svg class="w-4 h-4 text-orange-700" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
+                    </h3>
                     <div id="resScore" class="text-2xl font-black text-orange-600"></div>
                 </div>
                 <div class="mb-6">
-                    <p class="text-[10px] text-orange-700 font-bold uppercase mb-2 tracking-widest flex items-center gap-2">
-                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
-                        高转化长尾词推荐
-                    </p>
+                    <p class="text-[10px] text-orange-700 font-bold uppercase mb-2 tracking-widest">高转化长尾词推荐</p>
                     <div id="longtailWords" class="flex flex-wrap gap-2"></div>
                 </div>
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
                     <div id="marketData" class="space-y-2"></div>
-                    <div id="sceneData" class="text-xs text-gray-400 italic"></div>
+                    <div id="sceneData" class="text-xs text-gray-400 italic pl-4 border-l border-white/5"></div>
                 </div>
-                <div class="p-5 bg-black/60 rounded-xl border border-white/5 mb-8">
+                <div class="p-5 bg-black/60 rounded-xl border border-white/5 mb-8 shadow-inner">
                     <p class="text-[10px] text-orange-700 font-bold uppercase mb-3 tracking-widest">SEO 策略建议</p>
                     <ul id="adviceList" class="text-xs text-gray-400 space-y-2 list-disc pl-4"></ul>
                 </div>
 
                 <div class="text-center">
-                    <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" id="ctaBtn" class="inline-block bg-white text-black px-10 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all">获取该品类完整出海方案 →</a>
+                    <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" id="ctaBtn" class="inline-block bg-white text-black px-10 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all hover:bg-gray-200">获取该品类完整出海方案 →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-6 mb-20">
+    <section class="max-w-7xl mx-auto px-6 mb-20 relative z-10">
         <div class="grid md:grid-cols-3 gap-6">
-            <a href="https://up.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group">
+            <a href="https://up.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group bg-gradient-to-b from-transparent to-orange-950/10">
                 <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">行业分析</h4>
-                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase">Market Dashboard ➔</div>
+                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase group-hover:text-white transition">Market Dashboard ➔</div>
             </a>
-            <a href="https://gl-1qg.pages.dev" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group">
+            <a href="https://gl-1qg.pages.dev" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group bg-gradient-to-b from-transparent to-orange-950/10">
                 <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">商业雷达</h4>
-                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase">Business Radar ➔</div>
+                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase group-hover:text-white transition">Business Radar ➔</div>
             </a>
-            <a href="https://s.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-600/50 bg-orange-700/5 hover:border-orange-500 group shadow-lg shadow-orange-900/10">
+            <a href="https://s.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-600/50 bg-orange-700/5 hover:border-orange-500 group shadow-lg shadow-orange-900/10 bg-gradient-to-b from-orange-950/20 to-orange-950/10">
                 <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">智联全球</h4>
-                <div class="text-orange-500 text-[10px] font-bold tracking-widest uppercase">Intelligence Link ➔</div>
+                <div class="text-orange-500 text-[10px] font-bold tracking-widest uppercase group-hover:text-white transition">Intelligence Link ➔</div>
             </a>
         </div>
     </section>
 
-    <section id="benefits" class="max-w-7xl mx-auto px-6 py-10">
-        <h3 class="text-center text-2xl font-bold mb-16 tracking-[0.4em] uppercase text-white">会员专属权益与文化赋能</h3>
+    <section id="benefits" class="max-w-7xl mx-auto px-6 py-10 relative z-10">
+        <h3 class="text-center text-2xl font-bold mb-16 tracking-[0.4em] uppercase text-white flex justify-center items-center gap-4">
+            <span class="w-12 h-[1px] bg-white/20"></span>
+            会员专属权益与文化赋能
+            <span class="w-12 h-[1px] bg-white/20"></span>
+        </h3>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="benefitsGrid"></div>
 
         <div class="grid md:grid-cols-2 gap-6 mt-12">
-            <a href="https://ymtea.club" target="_blank" class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col justify-between group bg-gradient-to-br from-transparent to-orange-900/5">
+            <a href="https://ymtea.club" target="_blank" class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col justify-between group bg-gradient-to-br from-transparent to-orange-900/5 hover:to-orange-900/10">
                 <div>
-                    <div class="text-orange-600 mb-6">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>
-                    </div>
+                    <div class="text-orange-600 mb-6 group-hover:scale-110 transition-transform"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
                     <h4 class="text-4xl font-black text-white mb-4 tracking-tighter uppercase">Ymtea Shop</h4>
                     <p class="text-gray-400 text-sm leading-relaxed mb-8">云茗荟官方严选商城。集结精品耀州窑、宋代点茶具与源头名茶，为会员提供最具底蕴的商务礼赠方案。</p>
                 </div>
-                <div class="text-orange-700 font-bold text-[10px] tracking-[0.3em] uppercase">浏览商城精品库 →</div>
+                <div class="text-orange-700 font-bold text-[10px] tracking-[0.3em] uppercase group-hover:text-white transition">浏览商城精品库 →</div>
             </a>
 
-            <div class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col md:flex-row items-center gap-8 bg-white/5">
+            <div class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col md:flex-row items-center gap-8 bg-white/5 shadow-inner">
                 <div class="flex-1 text-center md:text-left">
                     <h4 class="text-2xl font-bold text-white mb-3 tracking-widest uppercase">私域情报局</h4>
-                    <p class="text-gray-500 text-xs leading-relaxed mb-6">
+                    <p class="text-gray-500 text-xs leading-relaxed mb-6 italic">
                         微信内<span class="text-orange-600 font-bold">长按识别</span>二维码，<br/>加入内部核心资源对接群。
                     </p>
                     <div class="inline-block px-4 py-2 bg-orange-700/20 rounded-full text-[10px] text-orange-600 font-bold uppercase border border-orange-700/30">微信内支持识别 ➔</div>
@@ -193,21 +205,18 @@
         </div>
     </section>
 
-    <section class="max-w-7xl mx-auto px-6 py-24 history-gradient">
+    <section class="max-w-7xl mx-auto px-6 py-24 history-gradient relative z-10">
         <div class="border-t border-white/10 pt-20">
             <div class="grid lg:grid-cols-3 gap-16 items-start">
                 <div>
-                    <h3 class="text-3xl font-bold tracking-[0.2em] uppercase text-orange-700 leading-tight flex flex-col">
-                        <span>云茗荟十年</span>
-                        <span class="text-white">以茶传道</span>
-                    </h3>
+                    <h3 class="text-3xl font-bold tracking-[0.2em] uppercase text-orange-700 leading-tight">云茗荟十年<br/><span class="text-white">以茶传道</span></h3>
                     <p class="text-white text-[10px] mt-6 opacity-40 tracking-[0.3em] uppercase font-light">ESTABLISHED DECADE AGO</p>
                 </div>
                 <div class="lg:col-span-2 space-y-8">
                     <p class="text-gray-300 text-xl leading-relaxed font-light">云茗荟由 <span class="text-white font-bold border-b border-orange-700">云茗老茶馆</span> 于五年前正式创办，核心团队深耕海外出口业务已逾十年。</p>
-                    <div class="space-y-6 text-gray-400 text-base leading-relaxed text-justify">
-                        <p>我们像品茗一样解构市场，积累了极其丰富的实战经验。云茗荟旨在通过真实的数据和实操案例，解决中国品牌出海过程中的难题。</p>
-                        <p class="p-8 bg-white/5 rounded-[2rem] border-l-4 border-orange-700 italic text-lg shadow-inner">
+                    <div class="space-y-6 text-gray-400 text-base leading-relaxed text-justify font-light">
+                        <p>我们稳扎稳打，像品茗一样解构市场，积累了极其丰富的实战经验以及全球供应链资源。云茗荟的建立初衷是为了响应广大茶友的需求，旨在通过真实的数据和实操案例，解决中国品牌出海过程中的信任、流量与转化难题。</p>
+                        <p class="p-8 bg-white/5 rounded-[2rem] border-l-4 border-orange-700 italic text-lg shadow-inner text-gray-300">
                             “我们希望用最真实的数据，最丰富的经验，亲自对接的优质客户，以及那些年走过的弯路、白白掏过的学费，来真诚地帮助所有外贸的朋友。”
                         </p>
                     </div>
@@ -216,7 +225,7 @@
         </div>
     </section>
 
-    <footer class="py-20 border-t border-white/5 bg-black relative">
+    <footer class="py-20 border-t border-white/5 bg-black relative z-10">
         <div class="max-w-7xl mx-auto px-6 text-center">
             <div class="flex justify-center flex-wrap gap-12 mb-12 text-[11px] font-bold uppercase tracking-[0.3em]">
                 <a href="https://ymtea.club" class="text-gray-400 hover:text-orange-700 transition-colors">官网首页</a>
@@ -229,7 +238,7 @@
     </footer>
 
     <script>
-        // 1. 实时查询历史模拟数据 (保持逻辑，微调文字)
+        // 1. 实时查询历史模拟数据 (文字微调，呼应茶主题)
         const historyData = [
             "来自 深圳 的卖家 刚刚 嗅到了 Tea Set 蓝海商机",
             "来自 泉州 的卖家 2分钟前 完成了 建材出海 竞争度分析",
@@ -249,7 +258,7 @@
             }, 500);
         }, 4000);
 
-        // 2. 会员权益数据 (保持逻辑)
+        // 2. 会员权益数据 (保持原样)
         const benefits = [
             { t: "非遗 · 大宋点茶", d: "还原宋代“七汤点茶”技艺。通过碎茶、注汤、击拂，营造顶级商务文化交流意境。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>` },
             { t: "耀州窑刻花艺术", d: "呈献国家级非遗耀州窑精品。其“剔刻花”技艺刀法犀利，以剔透青瓷承载中国出海底蕴。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/></svg>` },
@@ -267,7 +276,7 @@
             grid.innerHTML += `<div class="glass-card p-8 rounded-3xl flex flex-col"><div class="icon-box">${item.icon}</div><h4 class="font-bold mb-3 text-white text-lg">${item.t}</h4><p class="text-sm text-gray-500 font-light leading-relaxed">${item.d}</p></div>`;
         });
 
-        // 3. 扫描逻辑 (保持逻辑不变)
+        // 3. 扫描逻辑 (文字反馈增强茶韵)
         const strategyPool = [
             "竞争过于饱和，建议在长尾领域部署 GEO 矩阵拦截高意向用户。",
             "行业普遍缺乏文化叙事，这是提升品牌 300% 溢价的关键缺口。",
@@ -304,6 +313,7 @@
                 document.getElementById('resultBox').classList.remove('hidden');
                 document.getElementById('resTitle').innerHTML = `扫描品类：<span class="text-orange-700">${val}</span>`;
                 
+                // 激活按钮呼吸灯
                 ctaBtn.classList.add('animate-breath');
                 
                 btn.innerText = "重新扫描";
@@ -313,4 +323,4 @@
         }
     </script>
 </body>
-</html>
+</html>```
