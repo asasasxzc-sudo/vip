@@ -3,388 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YMTEA HUB | 商业情报终端</title>
+    <title>云茗荟 · 智赢全球 | YMTEA CLUB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #050505; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.3s ease; height: 100%; }
+        .glass-card:hover { border-color: rgba(194, 65, 12, 0.5); background: rgba(255, 255, 255, 0.05); transform: translateY(-5px); }
+        .gold-gradient { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); }
+        .history-gradient { background: linear-gradient(to bottom, transparent, rgba(194, 65, 12, 0.05), transparent); }
+        .icon-box { color: #c2410c; margin-bottom: 1rem; }
+        .sidebar-contact { position: fixed; right: 20px; bottom: 100px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .sidebar-item { background: #c2410c; color: white; padding: 12px; border-radius: 50%; box-shadow: 0 10px 25px rgba(194, 65, 12, 0.3); transition: all 0.3s ease; }
         
-        /* 保持背景色，但加入极简茶山纹理 */
-        body { 
-            background-color: #050505; 
-            background-image: radial-gradient(circle at 50% -20%, #1a1c12 0%, #050505 80%);
-            color: #e4e4e7; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
+        /* 扫描成功的呼吸灯特效 */
+        @keyframes breath {
+            0%, 100% { box-shadow: 0 0 5px rgba(194, 65, 12, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 20px rgba(194, 65, 12, 0.6); transform: scale(1.02); }
         }
+        .animate-breath { animation: breath 2s infinite ease-in-out; background-color: #c2410c !important; color: white !important; }
 
-        /* 茶元素背景装饰 */
-        body::after {
-            content: "";
-            position: fixed;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><path fill="%23ffffff" d="M150,800 C300,700 500,900 800,750 L1000,1000 L0,1000 Z"/></svg>');
-            background-position: bottom;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            z-index: -1;
+        /* 二维码闪烁动画提示 */
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(194, 65, 12, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(194, 65, 12, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(194, 65, 12, 0); }
         }
+        .qr-active { animation: pulse-border 2s infinite; }
 
-        .glass { 
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* 卡片暗纹：叶脉 */
-        .glass::before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            width: 80px;
-            height: 80px;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23d97706" stroke-width="0.5" opacity="0.2"><path d="M2,22C2,22 3,18 7,15C11,12 18,11 22,2M2,22C2,22 6,21 9,17C12,13 13,6 22,2M2,22L22,2"/></svg>');
-            background-size: contain;
-            pointer-events: none;
-        }
-
-        /* 琥珀茶金色 */
-        .gold-text { 
-            background: linear-gradient(135deg, #fbbf24, #d97706); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.3)); 
-        }
-
-        .modal-active { overflow: hidden; height: 100vh; }
-        .fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .custom-scroll::-webkit-scrollbar { width: 3px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
-
-        /* 客服按钮动画 - 模拟蒸汽升腾 */
-        .side-contact { position: fixed; right: 20px; bottom: 40px; z-index: 50; }
-        .side-contact::before {
-            content: "♨";
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #d97706;
-            font-size: 20px;
-            animation: steam 2s infinite linear;
-            opacity: 0;
-        }
-        @keyframes steam {
-            0% { transform: translate(-50%, 0) scale(0.8); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translate(-50%, -20px) scale(1.2); opacity: 0; }
-        }
-
-        footer { background: linear-gradient(to top, #0a0a0a, #050505); border-top: 1px solid rgba(217, 119, 6, 0.1); }
+        /* 滚动消息样式 */
+        #ticker { transition: all 0.5s ease-in-out; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <div class="side-contact">
-        <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="w-12 h-12 bg-amber-700 rounded-2xl flex items-center justify-center shadow-xl shadow-amber-900/40 border border-white/20 transition-transform hover:scale-110">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    <div class="sidebar-contact">
+        <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="sidebar-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8"/><path d="M8 13h6"/></svg>
         </a>
     </div>
 
-    <nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-black/80 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
-            <div class="text-xl font-black tracking-tighter cursor-pointer select-none" ondblclick="toggleAdmin()">
-                <span class="gold-text">YMTEA</span> <span class="text-zinc-500">HUB</span>
-            </div>
-            <div id="statusLabel" class="text-[9px] font-mono px-3 py-1 rounded-full bg-zinc-900 text-zinc-500 border border-white/5 uppercase tracking-widest">GUEST_ACCESS</div>
+    <nav class="p-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-black/90 backdrop-blur-sm z-50">
+        <a href="https://ymtea.club" target="_blank" class="text-xl font-bold tracking-tighter">云茗荟 <span class="text-orange-700">YMTEA</span></a>
+        <div class="flex gap-4 text-[10px] font-bold uppercase tracking-widest">
+            <a href="https://www.ymtea.club/bbs/" target="_blank" class="text-orange-600">论坛官网</a>
+            <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" class="hover:text-orange-600">微信咨询</a>
         </div>
     </nav>
 
-    <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8 space-y-8 fade-in">
-        <section class="text-center py-6">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight tracking-tighter text-white">云茗荟萃，<span class="gold-text">洞悉商机</span></h1>
-            <p class="text-zinc-500 text-[10px] md:text-xs tracking-[0.4em] uppercase font-bold opacity-80">Premium Trade Intelligence Hub & Professional Tools</p>
-        </section>
+    <header class="py-16 px-6 text-center">
+        <h1 class="text-4xl md:text-7xl font-bold mb-6 tracking-tight italic">以茶载道，<br/><span class="text-orange-700">智赢全球</span></h1>
+        <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto font-medium tracking-widest">“茗香社交，商道赋能”</p>
+    </header>
 
-        <div class="glass rounded-[2.5rem] p-6 shadow-inner">
-            <div class="flex justify-between items-center mb-5">
-                <h2 class="text-xs font-bold text-amber-600 flex items-center gap-2 tracking-widest uppercase">
-                    <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-amber-600"></span></span>
-                    全球贸易实时雷达 (Tea-Time Feed)
-                </h2>
-                <button onclick="refreshRadar()" class="text-[10px] text-amber-200/40 hover:text-amber-500 transition uppercase font-bold">Manual Sync</button>
-            </div>
-            <div id="trendList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pb-20">
-            <div class="glass p-6 md:p-10 rounded-[3rem] flex flex-col min-h-[450px]">
-                <h3 class="font-bold text-xl mb-6 text-white flex items-center gap-3">
-                    <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17,8C15.39,8 13.04,9.22 11.04,11.39C10,12.5 9,13.84 8.16,15.19C7.22,16.71 6.37,18.15 5.72,19.26C5.46,19.69 5.31,20 5.31,20.25C5.31,20.66 5.65,21 6.06,21C6.25,21 6.44,20.93 6.6,20.79L9,19L11,21L21,11C21,11 21,8 17,8Z"/></svg>
-                    核心情报目录
-                </h3>
-                <div id="reportList" class="flex-grow space-y-4 overflow-y-auto pr-2 custom-scroll"></div>
-            </div>
-
-            <div class="glass p-6 md:p-10 rounded-[3rem] flex flex-col min-h-[450px]">
-                <h3 class="font-bold text-xl mb-6 text-white flex items-center gap-3">
-                    <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 24 24"><path d="M21,11C21,16.5 16.5,21 11,21C5.5,21 1,16.5 1,11C1,5.5 5.5,1 11,1C11.5,1 12,1.05 12.5,1.13L11,2.63L9.5,1.13C10,1.05 10.5,1 11,1C15.97,1 20,5.03 20,10L21,11Z"/></svg>
-                    生产力工具库
-                </h3>
-                <div id="toolList" class="flex-grow space-y-4 overflow-y-auto pr-2 custom-scroll"></div>
-                <button onclick="showPayModal()" id="proBtn" class="mt-8 w-full py-5 bg-amber-700 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg shadow-amber-900/30 hover:bg-amber-600 transition-all text-white border border-white/10">Upgrade to Elite Pro</button>
-            </div>
-        </div>
-    </main>
-
-    <footer class="w-full py-16">
-        <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="space-y-4">
-                <div class="text-2xl font-black text-white tracking-tighter"><span class="gold-text">YMTEA</span> HUB</div>
-                <p class="text-zinc-500 text-xs leading-relaxed max-w-sm">云茗荟旗下高端情报分发终端。通过去中心化边缘节点，为您过滤杂讯，沉淀最有价值的商业原叶。</p>
+    <section class="max-w-3xl mx-auto w-full px-6 mb-20">
+        <div class="glass-card p-8 rounded-3xl text-center shadow-2xl border-orange-900/10">
+            <div class="mb-2">
+                <p class="text-orange-700/60 text-[10px] font-bold tracking-widest uppercase">“因为懂 SEO，所以更懂你需要什么”</p>
+                <h2 class="text-xs font-bold tracking-[0.3em] text-gray-500 uppercase">AI Market Intelligence Terminal</h2>
             </div>
             
-            <div class="space-y-4">
-                <div class="text-zinc-400 text-[10px] font-bold uppercase tracking-widest">Membership</div>
-                <div class="space-y-2">
-                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5 hover:border-amber-900/50 transition">
-                        <span class="text-zinc-300 text-xs">月度高级会员</span>
-                        <span class="text-amber-500 font-black text-sm">¥78 / MO</span>
-                    </div>
-                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5 hover:border-amber-900/50 transition">
-                        <span class="text-zinc-300 text-xs">年度精英通行证</span>
-                        <span class="text-amber-500 font-black text-sm">¥730 / YR</span>
-                    </div>
-                    <p class="text-[10px] text-zinc-600 italic mt-3 flex items-center gap-2">
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2L4,5V11C4,16.19 7.41,20.92 12,22C16.59,20.92 20,16.19 20,11V5L12,2Z"/></svg>
-                        请点击右下角按钮联系客服获取专属激活码
-                    </p>
+            <div class="mb-6 h-6 overflow-hidden relative">
+                <div id="ticker" class="text-[10px] text-orange-700/80 font-medium tracking-wider">
+                    正在连接全球实时数据中心...
                 </div>
             </div>
 
-            <div class="flex justify-between md:justify-end gap-16">
-                <div class="space-y-4">
-                    <div class="text-zinc-400 text-[10px] font-bold uppercase tracking-widest">Matrix</div>
-                    <a href="https://ymtea.club" class="block text-zinc-500 hover:text-amber-500 text-xs transition">云茗荟商城</a>
-                    <a href="https://vip.ymtea.club" class="block text-zinc-500 hover:text-amber-500 text-xs transition">VIP 社区</a>
+            <div class="flex flex-col md:flex-row gap-3">
+                <input id="productInput" class="flex-1 bg-black/50 border border-white/10 p-4 rounded-xl outline-none focus:border-orange-700 text-white transition-all" placeholder="输入出海产品关键词 (如: Tea Set)...">
+                <button onclick="runAnalysis()" id="btn" class="bg-orange-700 px-8 py-4 rounded-xl font-bold hover:bg-orange-600 transition-all text-sm uppercase tracking-widest text-white">启动全球扫描</button>
+            </div>
+            
+            <div id="resultBox" class="hidden mt-8 p-6 bg-white/5 rounded-2xl text-left border-l-4 border-orange-700 transition-all">
+                <div class="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
+                    <h3 class="font-bold text-lg text-white" id="resTitle"></h3>
+                    <div id="resScore" class="text-2xl font-black text-orange-600"></div>
                 </div>
-                <div class="space-y-4">
-                    <div class="text-zinc-400 text-[10px] font-bold uppercase tracking-widest">Status</div>
-                    <div class="flex items-center gap-2 text-green-600 text-[10px] font-mono"><span class="w-1 h-1 bg-green-600 rounded-full animate-pulse"></span> ONLINE</div>
-                    <div class="text-zinc-700 text-[10px] font-mono uppercase">Node: CF-Global</div>
+                <div class="mb-6">
+                    <p class="text-[10px] text-orange-700 font-bold uppercase mb-2 tracking-widest">高转化长尾词推荐</p>
+                    <div id="longtailWords" class="flex flex-wrap gap-2"></div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div id="marketData" class="space-y-2"></div>
+                    <div id="sceneData" class="text-xs text-gray-400 italic"></div>
+                </div>
+                <div class="p-5 bg-black/60 rounded-xl border border-white/5 mb-8">
+                    <p class="text-[10px] text-orange-700 font-bold uppercase mb-3 tracking-widest">SEO 策略建议</p>
+                    <ul id="adviceList" class="text-xs text-gray-400 space-y-2 list-disc pl-4"></ul>
+                </div>
+
+                <div class="text-center">
+                    <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" id="ctaBtn" class="inline-block bg-white text-black px-10 py-4 rounded-full font-bold text-[11px] uppercase tracking-widest transition-all">获取该品类完整出海方案 →</a>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 mb-20">
+        <div class="grid md:grid-cols-3 gap-6">
+            <a href="https://up.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group">
+                <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">行业分析</h4>
+                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase">Market Dashboard ➔</div>
+            </a>
+            <a href="https://gl-1qg.pages.dev" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-700/30 hover:border-orange-700 group">
+                <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">商业雷达</h4>
+                <div class="text-orange-700 text-[10px] font-bold tracking-widest uppercase">Business Radar ➔</div>
+            </a>
+            <a href="https://s.ymtea.club" target="_blank" class="block glass-card p-10 rounded-[2rem] border-orange-600/50 bg-orange-700/5 hover:border-orange-500 group shadow-lg shadow-orange-900/10">
+                <h4 class="text-xl font-bold text-white mb-2 uppercase tracking-widest">智联全球</h4>
+                <div class="text-orange-500 text-[10px] font-bold tracking-widest uppercase">Intelligence Link ➔</div>
+            </a>
+        </div>
+    </section>
+
+    <section id="benefits" class="max-w-7xl mx-auto px-6 py-10">
+        <h3 class="text-center text-2xl font-bold mb-16 tracking-[0.4em] uppercase text-white">会员专属权益与文化赋能</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="benefitsGrid"></div>
+
+        <div class="grid md:grid-cols-2 gap-6 mt-12">
+            <a href="https://ymtea.club" target="_blank" class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col justify-between group bg-gradient-to-br from-transparent to-orange-900/5">
+                <div>
+                    <div class="text-orange-600 mb-6"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+                    <h4 class="text-4xl font-black text-white mb-4 tracking-tighter uppercase">Ymtea Shop</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-8">云茗荟官方严选商城。集结精品耀州窑、宋代点茶具与源头名茶，为会员提供最具底蕴的商务礼赠方案。</p>
+                </div>
+                <div class="text-orange-700 font-bold text-[10px] tracking-[0.3em] uppercase">浏览商城精品库 →</div>
+            </a>
+
+            <div class="glass-card p-10 rounded-[2.5rem] border-orange-700/30 flex flex-col md:flex-row items-center gap-8 bg-white/5">
+                <div class="flex-1 text-center md:text-left">
+                    <h4 class="text-2xl font-bold text-white mb-3 tracking-widest uppercase">私域情报局</h4>
+                    <p class="text-gray-500 text-xs leading-relaxed mb-6">
+                        微信内<span class="text-orange-600 font-bold">长按识别</span>二维码，<br/>加入内部核心资源对接群。
+                    </p>
+                    <div class="inline-block px-4 py-2 bg-orange-700/20 rounded-full text-[10px] text-orange-600 font-bold uppercase border border-orange-700/30">微信内支持识别 ➔</div>
+                </div>
+                <div class="relative shrink-0">
+                    <div class="absolute inset-0 bg-orange-600/10 blur-2xl rounded-full"></div>
+                    <div class="relative w-40 h-40 bg-white p-2 rounded-2xl shadow-2xl qr-active">
+                        <img src="https://i.ibb.co/ttH14FK/mmexport1776230593348.jpg" alt="长按识别二维码" class="w-full h-full object-contain block" oncontextmenu="return true;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-24 history-gradient">
+        <div class="border-t border-white/10 pt-20">
+            <div class="grid lg:grid-cols-3 gap-16 items-start">
+                <div>
+                    <h3 class="text-3xl font-bold tracking-[0.2em] uppercase text-orange-700 leading-tight">云茗荟十年<br/><span class="text-white">用数据说话</span></h3>
+                    <p class="text-white text-[10px] mt-6 opacity-40 tracking-[0.3em] uppercase font-light">ESTABLISHED DECADE AGO</p>
+                </div>
+                <div class="lg:col-span-2 space-y-8">
+                    <p class="text-gray-300 text-xl leading-relaxed font-light">云茗荟由 <span class="text-white font-bold border-b border-orange-700">云茗老茶馆</span> 于五年前正式创办，核心团队深耕海外出口业务已逾十年。</p>
+                    <div class="space-y-6 text-gray-400 text-base leading-relaxed text-justify">
+                        <p>我们稳扎稳打，积累了极其丰富的实战经验以及全球供应链资源。云茗荟的建立初衷是为了响应广大茶友的需求，旨在通过真实的数据和实操案例，解决中国品牌出海过程中的信任、流量与转化难题。</p>
+                        <p class="p-8 bg-white/5 rounded-[2rem] border-l-4 border-orange-700 italic text-lg shadow-inner">
+                            “我们希望用最真实的数据，最丰富的经验，亲自对接的优质客户，以及那些年走过的弯路、白白掏过的学费，来真诚地帮助所有外贸的朋友。”
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 border-t border-white/5 bg-black">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex justify-center flex-wrap gap-12 mb-12 text-[11px] font-bold uppercase tracking-[0.3em]">
+                <a href="https://ymtea.club" class="text-gray-400 hover:text-orange-700 transition-colors">官网首页</a>
+                <a href="https://www.ymtea.club/bbs/" class="text-gray-400 hover:text-orange-700 transition-colors">云茗荟论坛</a>
+                <a href="https://ymtea.club/bbs/plugin.php?id=juui_itools" class="text-orange-700 hover:text-white transition-colors">实用工具</a>
+                <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" class="text-gray-400 hover:text-orange-700 transition-colors">私域咨询</a>
+            </div>
+            <div class="text-[10px] text-gray-700 tracking-[0.4em] uppercase font-medium">© 2026 YMTEA LABS · 非遗承袭：大宋点茶 / 耀州窑 / 茶道</div>
         </div>
     </footer>
 
-    <div id="adminPanel" class="fixed inset-0 z-50 hidden bg-black/98 items-center justify-center p-4">
-        <div class="bg-zinc-900 border border-amber-900/20 p-8 rounded-[3rem] w-full max-w-md shadow-2xl shadow-amber-900/10">
-            <div class="flex justify-between items-center mb-6 text-white font-black text-xs tracking-widest uppercase">Secret Terminal<button onclick="toggleAdmin()">✕</button></div>
-            <div class="space-y-4">
-                <input type="password" id="adminPass" placeholder="Access Key" class="w-full bg-black border border-white/10 p-4 rounded-2xl text-xs text-white focus:border-amber-600 outline-none">
-                <div class="flex gap-2">
-                    <button onclick="setCategory('report')" id="cat_report" class="flex-1 py-3 rounded-xl text-[10px] font-bold bg-amber-700 text-white transition-all">发布情报</button>
-                    <button onclick="setCategory('tool')" id="cat_tool" class="flex-1 py-3 rounded-xl text-[10px] font-bold bg-zinc-800 text-zinc-500 transition-all">发布工具</button>
-                </div>
-                <input type="text" id="quickTitle" placeholder="Title" class="w-full bg-black border border-white/10 p-4 rounded-2xl text-xs text-white">
-                <textarea id="quickContent" rows="3" placeholder="Content Body" class="w-full bg-black border border-white/10 p-4 rounded-2xl text-xs text-white"></textarea>
-                <button onclick="quickPublish()" class="w-full py-4 bg-amber-800 rounded-2xl font-black text-xs text-white uppercase tracking-widest">Sync to YM-Cloud</button>
-                <div class="pt-4 border-t border-white/5">
-                    <input type="text" id="codeOutput" readonly onclick="this.select()" placeholder="Ready Code" class="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-center text-amber-500 font-bold font-mono text-sm mb-2">
-                    <div class="grid grid-cols-2 gap-2">
-                        <button onclick="generateTestCode('monthly')" class="py-2 bg-zinc-800 rounded-xl text-[9px] text-zinc-400 font-bold uppercase">Monthly Code</button>
-                        <button onclick="generateTestCode('yearly')" class="py-2 bg-zinc-800 rounded-xl text-[9px] text-zinc-400 font-bold uppercase">Yearly Code</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="contentReader" class="fixed inset-0 z-[60] hidden bg-black items-center justify-center p-0 md:p-6 backdrop-blur-3xl">
-        <div class="bg-zinc-900 w-full h-full md:max-w-4xl md:h-[85vh] md:rounded-[3rem] flex flex-col border border-white/10">
-            <div class="p-6 border-b border-white/5 flex justify-between items-center text-white"><h2 id="readerTitle" class="font-black text-sm uppercase">Tea Intelligence Leaf</h2><button onclick="closeReader()" class="text-xl">✕</button></div>
-            <div id="readerBody" class="flex-grow overflow-y-auto p-8 md:p-12 text-zinc-200 leading-relaxed whitespace-pre-wrap select-text text-sm md:text-base custom-scroll"></div>
-        </div>
-    </div>
-
-    <div id="payModal" class="fixed inset-0 z-50 hidden bg-black/95 items-center justify-center p-4">
-        <div class="max-w-xl w-full text-center">
-            <div class="flex justify-center mb-6"><div class="w-16 h-1 bg-amber-600 rounded-full"></div></div>
-            <h2 class="text-3xl font-black text-white uppercase tracking-tighter mb-4">Elevated Content</h2>
-            <p class="text-zinc-500 text-xs mb-8 uppercase tracking-[0.2em]">请选择订阅方案并联系客服获取专属激活码</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass p-10 rounded-[2.5rem] hover:border-amber-600 transition cursor-pointer" onclick="startPay('monthly')">
-                    <div class="text-3xl font-black text-white">¥78</div><div class="text-[10px] mt-2 text-zinc-500 uppercase font-bold tracking-widest">Monthly Pass</div>
-                </div>
-                <div class="bg-amber-700/10 border-2 border-amber-600 p-10 rounded-[2.5rem] hover:bg-amber-600/20 transition cursor-pointer" onclick="startPay('yearly')">
-                    <div class="text-3xl font-black text-amber-500">¥730</div><div class="text-[10px] mt-2 text-amber-400 uppercase font-bold tracking-widest">Elite Annual</div>
-                </div>
-            </div>
-            <button onclick="closeModal('payModal')" class="mt-12 text-zinc-600 text-[10px] font-black uppercase tracking-widest">Return to Lobby</button>
-        </div>
-    </div>
-
     <script>
-        /* JavaScript 逻辑完全保留原样，确保与 Cloudflare Worker 后端兼容。
-           仅将一些 UI 文字做了微调以适配“茶”主题。
-        */
-        const API_BASE = "https://s1.ymtea.club";
-        let currentCategory = 'report';
+        // 1. 实时查询历史模拟数据
+        const historyData = [
+            "来自 深圳 的卖家 刚刚 获取了 Tea Set 扫描报告",
+            "来自 泉州 的卖家 2分钟前 完成了 建材出海 竞争度分析",
+            "来自 杭州 的卖家 5分钟前 下载了 丝绸类目 营销方案",
+            "来自 佛山 的卖家 刚刚 针对 智能家具 开启了 GEO 扫描",
+            "来自 义乌 的卖家 8分钟前 识别了 饰品类 高转化长尾词",
+            "来自 西安 的茶友 刚刚 咨询了 耀州窑 出海供应链对接"
+        ];
+        let historyIdx = 0;
+        const ticker = document.getElementById('ticker');
+        setInterval(() => {
+            ticker.style.opacity = 0;
+            setTimeout(() => {
+                ticker.innerText = historyData[historyIdx];
+                ticker.style.opacity = 1;
+                historyIdx = (historyIdx + 1) % historyData.length;
+            }, 500);
+        }, 4000);
 
-        const radarPool = [
-            { t: "🚢 美西港口吞吐预警", s: "DELAYED", c: "text-red-500" },
-            { t: "🤖 AI 广告投放回报率", s: "+14.2%", c: "text-green-500" },
-            { t: "📦 达拉斯分拨中心扩容", s: "LIVE", c: "text-blue-500" },
-            { t: "💡 TikTok Shop 英国禁售清单", s: "URGENT", c: "text-amber-600" },
-            { t: "📉 欧元区零售额变动", s: "-2.1%", c: "text-red-400" },
-            { t: "🚀 巴西海外仓新规发布", s: "STABLE", c: "text-cyan-500" },
-            { t: "🛒 亚马逊 PrimeDay 申报开始", s: "ALERT", c: "text-yellow-500" },
-            { t: "⚡ TEMU 墨西哥半托管政策", s: "NEW", c: "text-amber-500" },
-            { t: "📊 全球集装箱运费指数", s: "RISING", c: "text-red-500" },
-            { t: "💰 汇率波动: USD/CNY", s: "7.245", c: "text-green-400" },
-            { t: "🛠️ 智能 ERP 插件更新", s: "v1.9.0", c: "text-indigo-400" },
-            { t: "🌍 东南亚斋月消费报告", s: "HOT", c: "text-pink-500" },
-            { t: "🔍 竞品库存监控模块", s: "SYNCED", c: "text-emerald-500" },
-            { t: "🔥 俄罗斯站点流量暴涨", s: "NOTICE", c: "text-amber-400" },
-            { t: "⚓ 中欧班列排舱状况", s: "12 DAYS", c: "text-sky-500" },
-            { t: "📱 独立站拉新成本监测", s: "$4.12", c: "text-green-500" },
-            { t: "🧩 自助跟卖防护逻辑", s: "ACTIVE", c: "text-blue-600" },
-            { t: "🛡️ 品牌侵权自动预警", s: "SECURE", c: "text-teal-500" }
+        // 2. 会员权益数据
+        const benefits = [
+            { t: "非遗 · 大宋点茶", d: "还原宋代“七汤点茶”技艺。通过碎茶、注汤、击拂，营造顶级商务文化交流意境。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/></svg>` },
+            { t: "耀州窑刻花艺术", d: "呈献国家级非遗耀州窑精品。其“剔刻花”技艺刀法犀利，以剔透青瓷承载中国出海底蕴。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20"/></svg>` },
+            { t: "沉浸式茶道美学", d: "融合东方茶道精神。通过标准茶席间的深度对话，链接全球行业精英，实现高净值人群同频。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>` },
+            { t: "高端茶圈文化", d: "深度链接全球茶友。每周举办主题会员日活动，涵盖行业趋势、资源对接与深度茶会。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>` },
+            { t: "掼蛋与精品桌游", d: "专属商务博弈空间。通过社交掼蛋竞技与烧脑桌游，在互动中快速破冰，建立深层商业信任。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h.01M17 17h.01"/></svg>` },
+            { t: "SEO/GEO 深度优化", d: "基于内容矩阵与 AI 拦截全球高质流量。拒绝盲目烧钱，构建具备护城河属性的私域流量资产。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>` },
+            { t: "独立站定制方案", d: "提供贴合 B2B 场景的 UI 调优。因为我们懂搜索算法，所以更懂如何让网站变成真正的成交机器。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>` },
+            { t: "门店免品权", d: "会员身份标识。每日可至全球合作云茗荟门店享受顶级名茶免品，获得私密的商务接待空间。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/></svg>` },
+            { t: "极致商务对接", d: "提供垂直行业对接、精准供需匹配，通过“茶会+技术”彻底打破跨国商业信息差。", icon: `<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>` }
         ];
 
-        function refreshRadar() {
-            const trendList = document.getElementById('trendList');
-            const data = [...radarPool].sort(() => 0.5 - Math.random()).slice(0, 6);
-            trendList.innerHTML = data.map(item => `
-                <div class="p-4 border border-white/5 rounded-2xl bg-white/5 flex justify-between items-center fade-in">
-                    <span class="text-[11px] text-zinc-400 font-medium">${item.t}</span>
-                    <span class="text-[10px] ${item.c} font-black font-mono tracking-tighter">${item.s}</span>
-                </div>
-            `).join('');
+        const grid = document.getElementById('benefitsGrid');
+        benefits.forEach(item => {
+            grid.innerHTML += `<div class="glass-card p-8 rounded-3xl flex flex-col"><div class="icon-box">${item.icon}</div><h4 class="font-bold mb-3 text-white text-lg">${item.t}</h4><p class="text-sm text-gray-500 font-light leading-relaxed">${item.d}</p></div>`;
+        });
+
+        // 3. 扫描逻辑
+        const strategyPool = [
+            "竞争过于饱和，建议在长尾领域部署 GEO 矩阵拦截高意向用户。",
+            "行业普遍缺乏文化叙事，这是提升品牌 300% 溢价的关键缺口。",
+            "移动端加载速度 (LCP) 偏慢，影响 B 端大客户的停留时长。",
+            "建议配置 Hreflang 标签，精准拦截对应语种国家的高意向询盘。",
+            "利用 AI 生成深度行业报告作为 SEO 钩子，可将留资率提升 40%。",
+            "在视频搜索领域缺失布局，需围绕产品工艺拍摄具备信任感的短片。"
+        ];
+
+        function runAnalysis() {
+            const val = document.getElementById('productInput').value;
+            if(!val) return;
+            const btn = document.getElementById('btn');
+            const ctaBtn = document.getElementById('ctaBtn');
+            btn.innerText = "同步全球实时数据...";
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                const tails = [`Premium ${val} Wholesale`, `Traditional ${val} Exporters`, `Custom ${val} Supplier` ];
+                const tailContainer = document.getElementById('longtailWords');
+                tailContainer.innerHTML = '';
+                tails.forEach(t => { tailContainer.innerHTML += `<span class="px-3 py-1 bg-white/10 rounded-full text-[10px] text-gray-300 border border-white/5">${t}</span>`; });
+
+                const marketData = document.getElementById('marketData');
+                marketData.innerHTML = `<div class="flex justify-between text-[10px] text-gray-400"><span>主要出口国热度</span><span class="text-orange-600 font-bold">${Math.floor(Math.random()*20+75)}%</span></div>`;
+                document.getElementById('sceneData').innerText = `应用场景：高端礼赠与供应链集成`;
+
+                const shuffled = strategyPool.sort(() => 0.5 - Math.random()).slice(0, 3);
+                const adviceList = document.getElementById('adviceList');
+                adviceList.innerHTML = '';
+                shuffled.forEach(a => { adviceList.innerHTML += `<li>${a}</li>`; });
+
+                document.getElementById('resScore').innerText = "A+";
+                document.getElementById('resultBox').classList.remove('hidden');
+                document.getElementById('resTitle').innerText = "扫描品类：" + val;
+                
+                // 激活按钮呼吸灯
+                ctaBtn.classList.add('animate-breath');
+                
+                btn.innerText = "重新扫描";
+                btn.disabled = false;
+                document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 1500);
         }
-
-        async function loadContent() {
-            try {
-                const res = await fetch(`${API_BASE}/api/reports/list`);
-                const data = await res.json();
-                const reports = data.filter(i => i.category !== 'tool');
-                const tools = data.filter(i => i.category === 'tool');
-
-                document.getElementById('reportList').innerHTML = reports.map(r => `
-                    <div onclick="openReport(${r.id}, '${r.title}')" class="flex justify-between items-center p-5 glass rounded-2xl cursor-pointer border border-white/5 hover:border-amber-600/50 group transition-all">
-                        <span class="text-[13px] text-zinc-300 group-hover:text-amber-500 transition-colors">${r.title}</span>
-                        <span class="text-[10px] text-zinc-600 font-mono">${new Date(r.created_at).toLocaleDateString()}</span>
-                    </div>
-                `).join('') || '<p class="text-zinc-700 text-xs py-10 text-center uppercase tracking-widest">Leaf Database Empty</p>';
-
-                document.getElementById('toolList').innerHTML = tools.map(r => `
-                    <div onclick="openReport(${r.id}, '${r.title}')" class="flex items-center gap-4 p-5 glass rounded-2xl cursor-pointer border border-white/5 hover:bg-amber-600/10 group transition-all">
-                        <div class="w-12 h-12 rounded-2xl bg-zinc-950 flex items-center justify-center text-amber-600 text-lg group-hover:bg-amber-700 group-hover:text-white transition-all shadow-inner border border-white/5">🍃</div>
-                        <div class="flex-grow">
-                            <div class="text-[13px] text-zinc-200 font-black group-hover:text-amber-500">${r.title}</div>
-                            <div class="text-[10px] text-zinc-600 italic mt-0.5 tracking-tight uppercase">Elite Utility</div>
-                        </div>
-                    </div>
-                `).join('') || '<p class="text-zinc-700 text-xs py-10 text-center uppercase tracking-widest">No Tools Available</p>';
-            } catch (e) { console.error(e); }
-        }
-
-        async function openReport(id, title) {
-            const token = localStorage.getItem('ymtea_token');
-            if (!token) return showPayModal();
-            try {
-                const res = await fetch(`${API_BASE}/api/reports/view/${id}`, { headers: { 'Authorization': token } });
-                if (res.status === 403) return showPayModal();
-                const result = await res.json();
-                document.getElementById('readerTitle').innerText = title;
-                document.getElementById('readerBody').innerText = result.data;
-                document.getElementById('contentReader').classList.replace('hidden', 'flex');
-                document.body.classList.add('modal-active');
-            } catch (e) { alert("SYNC_ERROR_04"); }
-        }
-
-        async function generateTestCode(type) {
-            const pass = document.getElementById('adminPass').value;
-            if (!pass) return alert("REQUIRED_KEY");
-            const tempCode = `YM-${Math.random().toString(36).substring(7).toUpperCase()}`;
-            const sql = `INSERT INTO active_codes (code, type, is_used) VALUES ('${tempCode}', '${type}', 0) RETURNING code;`;
-            try {
-                const res = await fetch(`${API_BASE}/api/admin/publish`, {
-                    method: 'POST',
-                    headers: { 'Admin-Key': pass, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sql })
-                });
-                const result = await res.json();
-                if (res.ok && result.success) {
-                    const out = document.getElementById('codeOutput');
-                    out.value = result.results[0].code;
-                    out.select();
-                } else { alert("AUTH_FAIL"); }
-            } catch (e) { alert("API_FATAL"); }
-        }
-
-        async function quickPublish() {
-            const pass = document.getElementById('adminPass').value;
-            const title = document.getElementById('quickTitle').value;
-            const content = document.getElementById('quickContent').value;
-            if (!pass || !title || !content) return alert("MISSING_DATA");
-            const sql = `INSERT INTO reports (title, content, category) VALUES ('${title.replace(/'/g, "''")}', '${content.replace(/'/g, "''")}', '${currentCategory}');`;
-            try {
-                const res = await fetch(`${API_BASE}/api/admin/publish`, {
-                    method: 'POST',
-                    headers: { 'Admin-Key': pass, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sql })
-                });
-                if (res.ok) { location.reload(); } else { alert("PWD_ERR"); }
-            } catch (e) { alert("FATAL"); }
-        }
-
-        async function startPay(type) {
-            const email = prompt("请输入您的接收邮箱 (Recipient Email):");
-            const code = prompt("请输入激活码 (请通过联系右下角客服获取):");
-            if (!email || !code) return;
-            try {
-                const res = await fetch(`${API_BASE}/api/pay/success`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: email.trim(), type, code: code.trim() })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    localStorage.setItem('ymtea_token', data.token);
-                    location.reload();
-                } else { alert(data.msg); }
-            } catch (e) { alert("激活失败，请检查验证码或重试"); }
-        }
-
-        function toggleAdmin() { document.getElementById('adminPanel').classList.toggle('hidden'); document.getElementById('adminPanel').classList.toggle('flex'); }
-        function setCategory(cat) { 
-            currentCategory = cat; 
-            document.getElementById('cat_report').className = cat === 'report' ? 'flex-1 py-3 rounded-xl text-[10px] font-bold bg-amber-700 text-white' : 'flex-1 py-3 rounded-xl text-[10px] font-bold bg-zinc-800 text-zinc-500';
-            document.getElementById('cat_tool').className = cat === 'tool' ? 'flex-1 py-3 rounded-xl text-[10px] font-bold bg-amber-700 text-white' : 'flex-1 py-3 rounded-xl text-[10px] font-bold bg-zinc-800 text-zinc-500';
-        }
-        function showPayModal() { document.getElementById('payModal').classList.replace('hidden', 'flex'); }
-        function closeModal(id) { document.getElementById(id).classList.replace('flex', 'hidden'); document.body.classList.remove('modal-active'); }
-        function closeReader() { document.getElementById('contentReader').classList.replace('flex', 'hidden'); document.body.classList.remove('modal-active'); }
-
-        window.onload = () => {
-            refreshRadar();
-            loadContent();
-            if(localStorage.getItem('ymtea_token')) {
-                const status = document.getElementById('statusLabel');
-                status.innerText = "PRO_LEVEL_ACCESS";
-                status.classList.replace('text-zinc-500', 'text-amber-500');
-                status.classList.replace('bg-zinc-900', 'bg-amber-500/10');
-                if(document.getElementById('proBtn')) document.getElementById('proBtn').style.display = 'none';
-            }
-        };
     </script>
 </body>
 </html>
